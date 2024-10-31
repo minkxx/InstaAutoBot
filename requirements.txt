@@ -1,0 +1,9 @@
+pyrogram @ git+https://github.com/KurimuzonAkuma/pyrogram.git@v2.1.30
+pyromod
+TgCrypto
+flask
+instagrapi
+instaloader
+moviepy
+python-dotenv
+pillow
