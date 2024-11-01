@@ -2,6 +2,7 @@ pyrogram @ git+https://github.com/KurimuzonAkuma/pyrogram.git@v2.1.30
 pyromod
 TgCrypto
 flask
+gunicorn
 instagrapi
 instaloader
 moviepy
