@@ -3,11 +3,12 @@ from pyrogram.types import Message, InputMediaPhoto, CallbackQuery
 
 from Igbot import bot
 from Igbot.services.instaloader import insta_download
-from Igbot.services.instagrapi import load_client, post_photo, post_reel
+from Igbot.services.instagrapi import post_photo, post_reel, init_login_ig
 from Igbot.helpers import get_photo_file, get_reel_file, get_caption, delete_directory
 from Igbot.helpers.keyboards import ikb
 from Igbot.database import db_get_ig_acc
 
+import instagrapi
 
 @bot.on_message(
     filters.regex(
@@ -84,7 +85,8 @@ async def insta(c: Client, m: Message):
                 )
                 if username.text != "/cancel":
                     password = acc_data[username.text]
-                    ig_cli = load_client(c, m.chat.id, username.text, password)
+                    ig_cli = instagrapi.Client()
+                    init_login_ig(ig_cli, m.chat.id, username, password)
                     cap = await c.ask(
                         chat_id=m.chat.id,
                         text="Enter caption (1 to set default caption)",
@@ -111,7 +113,8 @@ async def upload(c: Client, cbq: CallbackQuery):
     acc_data = db_get_ig_acc(user_id)
     password = acc_data[username]
 
-    ig_cli = load_client(c, user_id, username, password)
+    ig_cli = instagrapi.Client()
+    init_login_ig(ig_cli, user_id, username, password)
 
     if i_type == "reel":
         cap = await c.ask(chat_id=user_id, text="Enter caption (1 to set default caption)")
