@@ -2,7 +2,7 @@ import os
 from instagrapi import Client
 
 
-def load_client(bot, user_id, username, password):
+async def load_client(bot, user_id, username, password):
     session_path = os.path.join("sessions", f"{user_id}-{username}.json")
 
     cli = Client()
@@ -15,7 +15,7 @@ def load_client(bot, user_id, username, password):
             cli.login(
                 username=username,
                 password=password,
-                verification_code=lambda user_id, username: two_factor_handler(
+                verification_code=lambda user_id, username: await two_factor_handler(
                     bot, user_id, username
                 ),
             )
@@ -27,6 +27,6 @@ def load_client(bot, user_id, username, password):
     return cli
 
 
-def two_factor_handler(bot, user_id, username):
-    code_2fa = bot.ask(chat_id=user_id, text=f"Enter your 2fa code for '{username}'")
+async def two_factor_handler(bot, user_id, username):
+    code_2fa = await bot.ask(chat_id=user_id, text=f"Enter your 2fa code for '{username}'")
     return code_2fa.text

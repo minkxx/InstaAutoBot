@@ -84,8 +84,8 @@ async def insta(c: Client, m: Message):
                 )
                 if username.text != "/cancel":
                     password = acc_data[username.text]
-                    ig_cli = load_client(c, m.chat.id, username.text, password)
-                    cap = c.ask(
+                    ig_cli = await load_client(c, m.chat.id, username.text, password)
+                    cap = await c.ask(
                         chat_id=m.chat.id,
                         text="Enter caption (1 to set default caption)",
                     )
@@ -111,11 +111,11 @@ async def upload(c: Client, cbq: CallbackQuery):
     acc_data = db_get_ig_acc(user_id)
     password = acc_data[username]
 
-    ig_cli = load_client(c, user_id, username, password)
+    ig_cli = await load_client(c, user_id, username, password)
 
     if i_type == "reel":
         reel_path = get_reel_file(short_code)
-        cap = c.ask(chat_id=user_id, text="Enter caption (1 to set default caption)")
+        cap = await c.ask(chat_id=user_id, text="Enter caption (1 to set default caption)")
         if cap.text == "1":
             post_reel(ig_cli, reel_path)
         else:
@@ -124,7 +124,7 @@ async def upload(c: Client, cbq: CallbackQuery):
         await c.send_message(chat_id=user_id, text=f"Uploaded reel to account: `{username}`")
     elif i_type == "p":
         photo_paths = get_photo_file(short_code)
-        cap = c.ask(chat_id=user_id, text="Enter caption (1 to set default caption)")
+        cap = await c.ask(chat_id=user_id, text="Enter caption (1 to set default caption)")
         if cap.text == "1":
             post_photo(ig_cli, photo_paths)
         else:
