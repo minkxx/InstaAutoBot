@@ -8,3 +8,5 @@ instaloader
 moviepy
 python-dotenv
 pillow
+pymongo
+pykeyboard
